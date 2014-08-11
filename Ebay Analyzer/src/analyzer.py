@@ -5,10 +5,15 @@ Created on Aug 10, 2014
 '''
 from statistics import mean, stdev
 import pylab as P
+from time import time
 
-def getExistingPrices(items):
-    """ Gets all non-None prices from items"""
+def getExistingBINPrices(items):
+    """ Gets all non-None BIN prices from items"""
     return [item.BINprice for item in items if item.BINprice is not None]
+
+def getExistingAUCPrices(items):
+    """ Gets all non-None auction prices from items"""
+    return [item.AUCprice for item in items if item.AUCprice is not None]
 
 def filterOutliers(prices):
     """ Removes outliers from the prices list. """
@@ -17,10 +22,23 @@ def filterOutliers(prices):
     #sigma = stdev(prices)
     #return list(filter(lambda p: p > mu - 0.8*sigma, prices))
 
-def plotPriceHistogram(items):
+def plotPriceHistogram(items, f):
     """ Plots a histogram of the price data of items """
-    prices = filterOutliers(getExistingPrices(items))
+    start = time()
+    prices = filterOutliers(f(items))
     
-    n, bins, patches = P.hist(prices, 10, normed=1, histtype='stepfilled')
+    print("Plotting Histogram")
+    (_, _, patches) = P.hist(prices, 10, normed=1, histtype='stepfilled')
     P.setp(patches, 'facecolor', 'g', 'alpha', 0.75)
+    
+    (avg, count, sigma) = (mean(prices), len(prices), stdev(prices))
+    print("{:d} items at an average price of ${:.2f} w/ a standard deviation of ${:.2f}".format(count, avg, sigma))
+    
+    print("Analysis took {:.2f}s".format(time() - start))
     P.show()
+
+def plotPriceHistograms(items):
+    P.title("Buy It Now Prices")
+    plotPriceHistogram(items, getExistingBINPrices)
+    P.title("Auction Prices")
+    plotPriceHistogram(items, getExistingAUCPrices)

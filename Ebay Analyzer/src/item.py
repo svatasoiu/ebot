@@ -14,29 +14,27 @@ def getElementTextWithDefault(elt, path, default = ""):
 
 class Item:
     '''
-    classdocs
+    An Item has a title, and optional BIN and AUC prices
     '''
 
     def __init__(self, elt):
         '''
         Constructor
         '''
-        self.elt = elt
         self.title = elt.find_element_by_xpath(constants.ITEMTITLE).text
         
         priceItems = elt.find_elements_by_xpath(constants.PRICEPATH)
-        # need to parse priceItems (3 cases: 1) only BIN, 2) only auction, 3) both prices)
-        try:
-            self.BINprice = float(getElementTextWithDefault(self.elt, constants.ITEMBINPRICE)[1:])
-        except:
-            print("Item " + self.title + " does not have a BIN price")
-            self.BINprice = None
-        try:
-            self.AUCprice = float(getElementTextWithDefault(self.elt, constants.ITEMAUCPRICE)[1:])
-        except:
-            print("Item " + self.title + " does not have an auction price")
-            self.AUCprice = None
-        
+        i = 0
+        self.BINprice = None
+        self.AUCprice = None
+        for p in priceItems:
+            if "bids" in p.text:
+                self.AUCprice = float(priceItems[i - 1].text[1:].split("\n")[0])
+            if "Now" in p.text:
+                self.BINprice = float(priceItems[i - 1].text[1:].split("\n")[0])
+                # should be last
+                break
+            i += 1
     
     def toString(self):
         return self.title + ": " + str(self.BINprice) + "/" + str(self.AUCprice)

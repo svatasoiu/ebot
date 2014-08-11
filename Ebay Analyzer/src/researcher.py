@@ -42,13 +42,15 @@ def retrieveAllSimilarItems(w):
     items = w.find_elements_by_xpath(constants.ITEMPATH)
     print("Getting items")
     res = [item.Item(i) for i in items]
-    while True:
+    pageNo = 1
+    while pageNo < constants.MAXPAGES:
         try:
             print("Next Page...")
             w.find_element_by_xpath(constants.PAGINATIONPATH).click()
             items = w.find_elements_by_xpath(constants.ITEMPATH)
             res += [item.Item(i) for i in items]
             print("Finished with Page")
+            pageNo += 1
         except:
             print("Done with Pagination")
             break

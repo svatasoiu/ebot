@@ -1,19 +1,28 @@
-import browser, researcher, analyzer, statistics
+import browser, researcher, analyzer
+from time import time
 
+start = time()
+ti = start
 # setting up browser
-w = browser.openBrowser()
+w = browser.openBrowser(windowed=True)
 browser.openToPage(w)
-browser.getRelated(w, "nexus 7 house")
+browser.getRelated(w, "nexus 7")
 researcher.setupCustomSearch(w)
+
+tf = time()
+print("Set up took {:.2f}s".format(tf - ti))
+ti = tf
 
 # get items
 items = researcher.retrieveAllSimilarItems(w)
+tf = time()
+print("Retrieval took {:.2f}s".format(tf - ti))
+ti = tf
 
 # analyze and report on items
-prices = analyzer.getExistingPrices(items)
-analyzer.plotPriceHistogram(items)
-(avg, count) = (statistics.mean(prices), len(prices))
-print("{:d} items at an average price of ${:.2f}".format(count, avg))
+analyzer.plotPriceHistograms(items)
+end = time()
 
 # close
 w.close()
+print("Total time: {:.2f}s".format(end - start))
