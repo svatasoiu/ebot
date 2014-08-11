@@ -8,13 +8,14 @@ import config as constants
 from selenium.webdriver.support.ui import WebDriverWait
 
 def check(w, ID):
+    """ makes sure the checkbox with id=ID on w is checked"""
     element = WebDriverWait(w, 10).until(lambda dr: dr.find_element_by_id(ID))
     if not element.is_selected():
         element.click()
 
 def clickPPL(driver):
     try:
-        driver.find_element_by_xpath("//input[@name='_fcippl' and @value='4']").click()
+        driver.find_element_by_xpath(".//input[@name='_fcippl' and @value='4']").click()
         return True
     except:
         return False
@@ -27,6 +28,7 @@ def clickCustom(driver):
         return False
 
 def setupCustomSearch(w):
+    """ Sets up return fields and limits on w """
     w.find_element_by_id("viewType").click()
     WebDriverWait(w, 10).until(clickCustom)
     
@@ -36,8 +38,19 @@ def setupCustomSearch(w):
     w.find_element_by_id("e1-3").click()
 
 def retrieveAllSimilarItems(w):
+    """ Returns all listed items on the current page of w """
     items = w.find_elements_by_xpath(constants.ITEMPATH)
-    return [item.Item(i) for i in items]
-
-def filterItems(items):
-    pass
+    print("Getting items")
+    res = [item.Item(i) for i in items]
+    while True:
+        try:
+            print("Next Page...")
+            w.find_element_by_xpath(constants.PAGINATIONPATH).click()
+            items = w.find_elements_by_xpath(constants.ITEMPATH)
+            res += [item.Item(i) for i in items]
+            print("Finished with Page")
+        except:
+            print("Done with Pagination")
+            break
+    print("Got " + str(len(res)) + " items")
+    return res

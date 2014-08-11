@@ -23,8 +23,20 @@ class Item:
         '''
         self.elt = elt
         self.title = elt.find_element_by_xpath(constants.ITEMTITLE).text
-        self.BINprice = getElementTextWithDefault(self.elt, constants.ITEMBINPRICE)
-        self.AUCprice = getElementTextWithDefault(self.elt, constants.ITEMAUCPRICE)
+        
+        priceItems = elt.find_elements_by_xpath(constants.PRICEPATH)
+        # need to parse priceItems (3 cases: 1) only BIN, 2) only auction, 3) both prices)
+        try:
+            self.BINprice = float(getElementTextWithDefault(self.elt, constants.ITEMBINPRICE)[1:])
+        except:
+            print("Item " + self.title + " does not have a BIN price")
+            self.BINprice = None
+        try:
+            self.AUCprice = float(getElementTextWithDefault(self.elt, constants.ITEMAUCPRICE)[1:])
+        except:
+            print("Item " + self.title + " does not have an auction price")
+            self.AUCprice = None
+        
     
     def toString(self):
-        return self.title + ": " + self.BINprice + "/" + self.AUCprice
+        return self.title + ": " + str(self.BINprice) + "/" + str(self.AUCprice)
