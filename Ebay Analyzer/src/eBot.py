@@ -1,4 +1,7 @@
-import browser, researcher, analyzer
+#! /usr/bin/python3.4
+
+import browser, researcher, analyzer, sys
+import config as constants
 from time import time
 
 start = time()
@@ -6,7 +9,7 @@ ti = start
 # setting up browser
 w = browser.openBrowser(windowed=True)
 browser.openToPage(w)
-browser.getRelated(w, "nexus 7")
+browser.getRelated(w, sys.argv[1] if len(sys.argv) > 1 else constants.DEFAULT_SEARCH)
 researcher.setupCustomSearch(w)
 
 tf = time()

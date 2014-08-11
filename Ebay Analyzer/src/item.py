@@ -28,11 +28,15 @@ class Item:
         self.BINprice = None
         self.AUCprice = None
         for p in priceItems:
-            if "bids" in p.text:
-                self.AUCprice = float(priceItems[i - 1].text[1:].split("\n")[0])
-            if "Now" in p.text:
-                self.BINprice = float(priceItems[i - 1].text[1:].split("\n")[0])
-                # should be last
+            try:
+                if "bids" in p.text:
+                    self.AUCprice = float(priceItems[i - 1].text[1:].split("\n")[0].replace(',',''))
+                if "Now" in p.text:
+                    self.BINprice = float(priceItems[i - 1].text[1:].split("\n")[0].replace(',',''))
+                    # should be last
+                    break
+            except:
+                print("Could not parse price for " + self.title)
                 break
             i += 1
     

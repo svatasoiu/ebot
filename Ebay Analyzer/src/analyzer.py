@@ -28,8 +28,10 @@ def plotPriceHistogram(items, f):
     prices = filterOutliers(f(items))
     
     print("Plotting Histogram")
-    (_, _, patches) = P.hist(prices, 10, normed=1, histtype='stepfilled')
+    (_, _, patches) = P.hist(prices, 10, histtype='stepfilled')
     P.setp(patches, 'facecolor', 'g', 'alpha', 0.75)
+    P.xlabel("Price ($)")
+    P.ylabel("Number of Items in Bucket")
     
     (avg, count, sigma) = (mean(prices), len(prices), stdev(prices))
     print("{:d} items at an average price of ${:.2f} w/ a standard deviation of ${:.2f}".format(count, avg, sigma))
