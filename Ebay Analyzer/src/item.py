@@ -33,6 +33,7 @@ class Item:
                 self.seller_name = x.replace("Seller: ","")
                 break
         
+        print("%s (%s): %s" % (self.ebayID, self.seller_name, self.title))
         priceItems = elt.find_elements_by_xpath(constants.PRICEPATH)
         i = 0
         self.BINprice = None
@@ -52,7 +53,8 @@ class Item:
             
         # add to mysql db
         cursor = db_conn.cursor()
-        add_item  = "INSERT INTO Items (EbayID,Title,SellerName,BidPrice,BINPrice) VALUES (%s,%s,%s,%s,%s)"
+        add_item  = "INSERT INTO Items (EbayID,Title,SellerName,BidPrice,BINPrice) VALUES (%s,%s,%s,%s,%s)" \
+                    " ON DUPLICATE KEY UPDATE EbayID=EbayID,Title=Title,SellerName=SellerName,BidPrice=BidPrice,BINPrice=BINPrice;"
         item_data = (self.ebayID, self.title, self.seller_name, self.AUCprice, self.BINprice)
         cursor.execute(add_item, item_data)
         db_conn.commit()
