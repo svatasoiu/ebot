@@ -3,7 +3,7 @@ Created on Aug 5, 2014
 
 @author: svatasoiu
 '''
-import selenium.common.exceptions
+import selenium.common.exceptions, re
 import config as constants
 
 def getElementTextWithDefault(elt, path, default = ""):
@@ -17,11 +17,21 @@ class Item:
     An Item has a title, and optional BIN and AUC prices
     '''
 
-    def __init__(self, elt):
+    def __init__(self, elt, db_conn):
         '''
         Constructor
         '''
+        self.ebayID = elt.get_attribute("id").replace("item","")
         self.title = elt.find_element_by_xpath(constants.ITEMTITLE).text
+        self.seller_name = ""
+        details = elt.find_elements_by_xpath(constants.SELLERDETAILSPATH)
+        for d in details:
+            t = d.text
+            if "Seller" in t:
+                m = re.search('^[^\(]+', t)
+                x = m.group(0)
+                self.seller_name = x.replace("Seller: ","")
+                break
         
         priceItems = elt.find_elements_by_xpath(constants.PRICEPATH)
         i = 0
@@ -39,6 +49,15 @@ class Item:
                 print("Could not parse price for " + self.title)
                 break
             i += 1
+            
+        # add to mysql db
+        cursor = db_conn.cursor()
+        add_item  = "INSERT INTO Items (EbayID,Title,SellerName,BidPrice,BINPrice) VALUES (%s,%s,%s,%s,%s)"
+        item_data = (self.ebayID, self.title, self.seller_name, self.AUCprice, self.BINprice)
+        cursor.execute(add_item, item_data)
+        db_conn.commit()
+        cursor.close()
+        
     
     def toString(self):
         return self.title + ": " + str(self.BINprice) + "/" + str(self.AUCprice)
