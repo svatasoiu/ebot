@@ -17,7 +17,7 @@ class Item:
     An Item has a title, and optional BIN and AUC prices
     '''
 
-    def __init__(self, elt, db_conn):
+    def __init__(self, elt, db_conn, search_term=""):
         '''
         Constructor
         '''
@@ -68,9 +68,10 @@ class Item:
         # add to mysql db
         cursor = db_conn.cursor()
         try:
-            add_item  = "INSERT INTO Items (EbayID,Title,SellerName,BidPrice,BINPrice,TimeLeft,NumBids) VALUES (%s,%s,%s,%s,%s,%s,%s)" \
-                        " ON DUPLICATE KEY UPDATE EbayID=EbayID,Title=Title,SellerName=SellerName,BidPrice=BidPrice,BINPrice=BINPrice,TimeLeft=TimeLeft,NumBids=NumBids;"
-            item_data = (self.ebayID, self.title, self.seller_name, self.AUCprice, self.BINprice, self.time_left, self.num_bids)
+            add_item  = "INSERT INTO Items (EbayID,Title,SellerName,BidPrice,BINPrice,TimeLeft,NumBids,SearchTerm) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)" \
+                        " ON DUPLICATE KEY UPDATE EbayID=EbayID,Title=Title,SellerName=SellerName,BidPrice=BidPrice," \
+                        "BINPrice=BINPrice,TimeLeft=TimeLeft,NumBids=NumBids,SearchTerm=SearchTerm;"
+            item_data = (self.ebayID, self.title, self.seller_name, self.AUCprice, self.BINprice, self.time_left, self.num_bids, search_term)
             cursor.execute(add_item, item_data)
             db_conn.commit()
             cursor.close()

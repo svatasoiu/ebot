@@ -22,10 +22,10 @@ def filterOutliers(prices):
     #sigma = stdev(prices)
     #return list(filter(lambda p: p > mu - 0.8*sigma, prices))
 
-def plotPriceHistogram(items, f):
+def plotPriceHistogram(items, extract_prices):
     """ Plots a histogram of the price data of items """
     start = time()
-    prices = filterOutliers(f(items))
+    prices = filterOutliers(extract_prices(items))
     
     print("Plotting Histogram")
     (_, _, patches) = P.hist(prices, 10, histtype='stepfilled')
@@ -40,7 +40,27 @@ def plotPriceHistogram(items, f):
     P.show()
 
 def plotPriceHistograms(items):
-    P.title("Buy It Now Prices")
+    P.title("Buy It Now Price Histogram")
     plotPriceHistogram(items, getExistingBINPrices)
-    P.title("Auction Prices")
+    P.title("Auction Price Histogram")
     plotPriceHistogram(items, getExistingAUCPrices)
+    
+def plotPriceVsTimeLeft(items, price_name):
+    time_left = []
+    prices = []
+    for item in items:
+        t_l = item.time_left
+        price = getattr(item, price_name)
+        if t_l is not None and price is not None:
+            time_left.append(t_l)
+            prices.append(price)
+    P.xlabel("Time Left In Auction (s)")
+    P.ylabel("Price ($)")
+    P.scatter(time_left, prices, alpha=0.5)
+    P.show()
+
+def plotPriceVsTimeLeftGraphs(items):
+    P.title("Buy It Now Price vs TimeLeft")
+    plotPriceVsTimeLeft(items, "BINprice")
+    P.title("Auction Price vs TimeLeft")
+    plotPriceVsTimeLeft(items, "AUCprice")
