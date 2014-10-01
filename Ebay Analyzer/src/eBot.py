@@ -1,4 +1,4 @@
-#! /usr/bin/python3.4
+#! /usr/bin/python2.7
 
 import browser, researcher, analyzer, sys
 import config as constants

@@ -3,7 +3,7 @@ Created on Aug 10, 2014
 
 @author: svatasoiu
 '''
-from statistics import mean, stdev
+#from statistics import mean, stdev
 import pylab as P
 from time import time
 
@@ -33,8 +33,8 @@ def plotPriceHistogram(items, extract_prices):
     P.xlabel("Price ($)")
     P.ylabel("Number of Items in Bucket")
     
-    (avg, count, sigma) = (mean(prices), len(prices), stdev(prices))
-    print("{:d} items at an average price of ${:.2f} w/ a standard deviation of ${:.2f}".format(count, avg, sigma))
+    #(avg, count, sigma) = (mean(prices), len(prices), stdev(prices))
+    #print("{:d} items at an average price of ${:.2f} w/ a standard deviation of ${:.2f}".format(count, avg, sigma))
     
     print("Analysis took {:.2f}s".format(time() - start))
     P.show()
