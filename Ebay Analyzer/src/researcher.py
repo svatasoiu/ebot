@@ -5,6 +5,7 @@ Created on Aug 5, 2014
 '''
 import item
 import config as constants
+import db_config as db_constants
 import mysql.connector
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -40,7 +41,7 @@ def setupCustomSearch(w):
 
 def retrieveAllSimilarItems(w, search_term = ""):
     """ Returns all listed items on the current page of w """
-    db_conn = mysql.connector.connect(**constants.DBCONFIG)
+    db_conn = mysql.connector.connect(**db_constants.DBCONFIG)
     
     items = w.find_elements_by_xpath(constants.ITEMPATH)
     print("Getting items")
