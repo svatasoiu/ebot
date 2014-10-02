@@ -1,6 +1,6 @@
 ## Settings
 BASEURL = "http://www.ebay.com/"
-PHANTOMPATH = "/home/svatasoiu/Documents/phantomjs-1.9.7-linux-x86_64/bin/phantomjs"
+PHANTOMPATH = "/home/svatasoi/phantomjs-1.9.7-linux-i686/bin/phantomjs"
 MAXPAGES = 2
 DEFAULT_SEARCH = "nexus 7"
 
