@@ -1,1 +1,6 @@
 db_config.py
+*.pyc
+.metadata
+.project
+*.log
+.pydevproject

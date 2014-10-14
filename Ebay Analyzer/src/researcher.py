@@ -39,7 +39,7 @@ def setupCustomSearch(w):
         check(w, "e1-" + i)
     w.find_element_by_id("e1-3").click()
 
-def retrieveAllSimilarItems(w, search_term = ""):
+def retrieveAllSimilarItems(w, max_pages, search_term = ""):
     """ Returns all listed items on the current page of w """
     db_conn = mysql.connector.connect(**db_constants.DBCONFIG)
     
@@ -47,7 +47,10 @@ def retrieveAllSimilarItems(w, search_term = ""):
     print("Getting items")
     res = [item.Item(i, db_conn, search_term) for i in items]
     pageNo = 1
-    while pageNo < constants.MAXPAGES:
+    while pageNo < max_pages:
+        print(pageNo)
+        print(max_pages)
+        print (pageNo < max_pages)
         try:
             print("Next Page...")
             w.find_element_by_xpath(constants.PAGINATIONPATH).click()
