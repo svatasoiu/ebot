@@ -18,6 +18,7 @@ start = time()
 ti = start
 # setting up browser
 w = browser.openBrowser(windowed=options.windowed)
+browser.openToPage(w)
 
 search_term = options.search_term
 browser.getRelated(w, search_term)
