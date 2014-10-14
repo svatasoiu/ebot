@@ -1,4 +1,4 @@
-#! /usr/bin/python2.7
+#! /usr/bin/python2.6
 
 import browser, researcher, analyzer, sys
 import config as constants
@@ -18,7 +18,6 @@ start = time()
 ti = start
 # setting up browser
 w = browser.openBrowser(windowed=options.windowed)
-browser.openToPage(w)
 
 search_term = options.search_term
 browser.getRelated(w, search_term)
@@ -26,13 +25,13 @@ researcher.setupCustomSearch(w)
 print("Current URL: %s" % w.current_url)
 
 tf = time()
-print("Set up took {:.2f}s".format(tf - ti))
+print("Set up took {0:.2f}s".format(tf - ti))
 ti = tf
 
 # get items
 items = researcher.retrieveAllSimilarItems(w, options.max_pages, search_term)
 tf = time()
-print("Retrieval took {:.2f}s".format(tf - ti))
+print("Retrieval took {0:.2f}s".format(tf - ti))
 ti = tf
 
 # analyze and report on items
@@ -43,5 +42,4 @@ end = time()
 
 # close
 w.close()
-print("Total time: {:.2f}s".format(end - start))
-sys.exit(0)
+print("Total time: {0:.2f}s".format(end - start))
