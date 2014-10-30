@@ -14,6 +14,7 @@ def openToPage(w, page = constants.BASEURL):
 def getRelated(w, query):
     """ Get the suggested related items as determined by Ebay """
     print("Searching for " + query)
+#     w.implicitly_wait(10)
     w.find_element_by_xpath(constants.SEARCHBOXPATH).send_keys(query)
     w.find_element_by_id(constants.SEARCHSUBMIT_ID).click()
     print("Getting related search")

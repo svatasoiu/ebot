@@ -7,6 +7,7 @@ import item
 import config as constants
 import db_config as db_constants
 import mysql.connector
+from datetime import datetime
 from selenium.webdriver.support.ui import WebDriverWait
 
 def check(w, ID):
@@ -39,7 +40,7 @@ def setupCustomSearch(w):
         check(w, "e1-" + i)
     w.find_element_by_id("e1-3").click()
 
-def retrieveAllSimilarItems(w, max_pages, search_term = ""):
+def retrieveAllSimilarItems(w, max_pages, search_term = "", logfile=None):
     """ Returns all listed items on the current page of w """
     db_conn = mysql.connector.connect(**db_constants.DBCONFIG)
     
@@ -57,10 +58,22 @@ def retrieveAllSimilarItems(w, max_pages, search_term = ""):
             items = w.find_elements_by_xpath(constants.ITEMPATH)
             res += [item.Item(i, db_conn, search_term) for i in items]
             print("Finished with Page")
+            if logfile:
+                try:
+                    time_now = datetime.now().strftime("%I:%M:%S%p")
+                    logfile.write("%s: (term=%s) Finished page of %s items\n" % (time_now, search_term, str(len(items))))
+                except:
+                    pass
             pageNo += 1
         except:
             print("Done with Pagination")
             break
     print("Got " + str(len(res)) + " items")
+    if logfile:
+        try:
+            time_now = datetime.now().strftime("%I:%M:%S%p")
+            logfile.write("%s: (term=%s) Researcher got a total of %s items\n" % (time_now, search_term, str(len(res))))
+        except:
+            pass
     db_conn.close()
     return res

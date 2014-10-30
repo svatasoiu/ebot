@@ -1,8 +1,9 @@
 #! /usr/bin/python2.6
 
-import browser, researcher, analyzer, sys
+import browser, researcher, analyzer
 import config as constants
 from time import time
+from datetime import date
 from optparse import OptionParser
 
 # arguments 
@@ -18,6 +19,7 @@ start = time()
 ti = start
 # setting up browser
 w = browser.openBrowser(windowed=options.windowed)
+browser.openToPage(w)
 
 search_term = options.search_term
 browser.getRelated(w, search_term)
@@ -29,7 +31,8 @@ print("Set up took {0:.2f}s".format(tf - ti))
 ti = tf
 
 # get items
-items = researcher.retrieveAllSimilarItems(w, options.max_pages, search_term)
+with open(constants.LOGFILE % date.today().strftime("%m-%d-%y"), 'a') as logfile:
+    items = researcher.retrieveAllSimilarItems(w, options.max_pages, search_term, logfile)
 tf = time()
 print("Retrieval took {0:.2f}s".format(tf - ti))
 ti = tf

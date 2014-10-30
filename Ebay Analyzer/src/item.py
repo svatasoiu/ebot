@@ -5,6 +5,7 @@ Created on Aug 5, 2014
 '''
 import selenium.common.exceptions, re
 import config as constants
+from datetime import datetime
 
 def getElementTextWithDefault(elt, path, default = ""):
     try:
@@ -17,7 +18,7 @@ class Item:
     An Item has a title, and optional BIN and AUC prices
     '''
 
-    def __init__(self, elt, db_conn, search_term=""):
+    def __init__(self, elt, db_conn, search_term="", logfile=None):
         '''
         Constructor
         '''
@@ -68,15 +69,21 @@ class Item:
         # add to mysql db
         cursor = db_conn.cursor()
         try:
-            add_item  = "INSERT INTO Items (EbayID,Title,SellerName,BidPrice,BINPrice,TimeLeft,NumBids,SearchTerm) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)" \
-                        " ON DUPLICATE KEY UPDATE EbayID=EbayID,Title=Title,SellerName=SellerName,BidPrice=BidPrice," \
-                        "BINPrice=BINPrice,TimeLeft=TimeLeft,NumBids=NumBids,SearchTerm=SearchTerm;"
+            add_item  = "INSERT INTO Items (EbayID,Title,SellerName,BidPrice,BINPrice,TimeLeft,NumBids,SearchTerm) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+#                         " ON DUPLICATE KEY UPDATE EbayID=EbayID,Title=Title,SellerName=SellerName,BidPrice=BidPrice," \
+#                         "BINPrice=BINPrice,TimeLeft=TimeLeft,NumBids=NumBids,SearchTerm=SearchTerm;"
             item_data = (self.ebayID, self.title, self.seller_name, self.AUCprice, self.BINprice, self.time_left, self.num_bids, search_term)
             cursor.execute(add_item, item_data)
             db_conn.commit()
             cursor.close()
         except:
+            time_now = datetime.now().strftime("%I:%M:%S%p")
             print("Error uploading item w/ ID = %s to MySQL" % self.ebayID)
+            if logfile:
+                try:
+                    logfile.write("%s: (term=%s) Error uploading item w/ ID = %s to MySQL\n" % (time_now, search_term, self.ebayID))
+                except:
+                    pass
         finally:
             cursor.close()
     

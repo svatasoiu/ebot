@@ -1,4 +1,5 @@
 CREATE TABLE `Items` (
+	`ID` int(11) NOT NULL AUTO_INCREMENT,
   `EbayID` varchar(127) NOT NULL,
   `Title` varchar(255) NOT NULL,
   `BidPrice` decimal(10,2) DEFAULT NULL,
@@ -8,5 +9,5 @@ CREATE TABLE `Items` (
   `TimeLeft` int(11) DEFAULT NULL,
   `NumBids` int(11) DEFAULT NULL,
   `SearchTerm` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`EbayID`)
+  PRIMARY KEY (`ID`)
 )
