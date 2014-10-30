@@ -34,9 +34,9 @@ def plotPriceHistogram(items, extract_prices):
     P.ylabel("Number of Items in Bucket")
     
     #(avg, count, sigma) = (mean(prices), len(prices), stdev(prices))
-    #print("{:d} items at an average price of ${:.2f} w/ a standard deviation of ${:.2f}".format(count, avg, sigma))
+    #print("{0:d} items at an average price of ${0:.2f} w/ a standard deviation of ${0:.2f}".format(count, avg, sigma))
     
-    print("Analysis took {:.2f}s".format(time() - start))
+    print("Analysis took {0:.2f}s".format(time() - start))
     P.show()
 
 def plotPriceHistograms(items):
