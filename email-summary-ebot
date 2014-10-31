@@ -1,0 +1,4 @@
+#!/bin/sh
+mail -s "EBot Logs" sorin_vatasoiu@brown.edu < /home/svatasoi/ebot/logs/summary-$(date -d "yesterday" '+%m-%d-%y').log
+
+mysql -u root -D ebay < /home/svatasoi/ebot/sql-scripts/summarize_items.sql | mail -s "Ebot data summary" sorin_vatasoiu@brown.edu
