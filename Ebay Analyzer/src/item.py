@@ -5,7 +5,7 @@ Created on Aug 5, 2014
 '''
 import selenium.common.exceptions, re
 import config as constants
-from datetime import datetime
+from datetime import datetime, date
 
 def getElementTextWithDefault(elt, path, default = ""):
     try:
@@ -69,7 +69,8 @@ class Item:
         # add to mysql db
         cursor = db_conn.cursor()
         try:
-            add_item  = "INSERT INTO Items (EbayID,Title,SellerName,BidPrice,BINPrice,TimeLeft,NumBids,SearchTerm) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+            add_item  = "INSERT INTO ItemsWeek" + str(1+(date.today() - date(2014, 11, 1)).days/7) + \
+                " (EbayID,Title,SellerName,BidPrice,BINPrice,TimeLeft,NumBids,SearchTerm) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
 #                         " ON DUPLICATE KEY UPDATE EbayID=EbayID,Title=Title,SellerName=SellerName,BidPrice=BidPrice," \
 #                         "BINPrice=BINPrice,TimeLeft=TimeLeft,NumBids=NumBids,SearchTerm=SearchTerm;"
             item_data = (self.ebayID, self.title, self.seller_name, self.AUCprice, self.BINprice, self.time_left, self.num_bids, search_term)
