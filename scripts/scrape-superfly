@@ -1,0 +1,2 @@
+#!/bin/bash
+python /home/svatasoi/ebot/"Ebay Analyzer"/src/eBot.py -n 10 -s "nike mercurial vapor superfly"

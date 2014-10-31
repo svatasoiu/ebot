@@ -3,7 +3,7 @@ BASEURL = "http://www.ebay.com/"
 PHANTOMPATH = "/home/svatasoi/phantomjs-1.9.7-linux-i686/bin/phantomjs"
 MAXPAGES = 2
 DEFAULT_SEARCH = "nexus 7"
-LOGFILE = "logs/summary-%s.log"
+LOGFILE = "/home/svatasoi/ebot/logs/summary-%s.log"
 
 ## Paths to search box and settings
 SEARCHBOXPATH = "//div[@id='gh-ac-box2']/input"

@@ -1,0 +1,11 @@
+#!/bin/bash
+mail -s "EBot Logs" sorin_vatasoiu@brown.edu < /home/svatasoi/ebot/logs/summary-$(date '+%m-%d-%y').log
+
+echo "" > email-summary.txt
+for i in {0..15}
+	do
+		echo "Week $i Summary" | cat >> email-summary.txt
+		echo "select SearchTerm, count(*), avg(BidPrice) as AvgBid, avg(BINPrice) as AvgBIN from ItemsWeek$i GROUP BY SearchTerm;" | mysql -u root -D ebay | cat >> email-summary.txt
+		echo "=========================================" | cat >> email-summary.txt
+done
+mail -s "Ebot data summary" sorin_vatasoiu@brown.edu < email-summary.txt
