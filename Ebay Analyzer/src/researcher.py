@@ -56,7 +56,7 @@ def retrieveAllSimilarItems(w, max_pages, search_term = "", logfile=None):
             print("Next Page...")
             w.find_element_by_xpath(constants.PAGINATIONPATH).click()
             items = w.find_elements_by_xpath(constants.ITEMPATH)
-            res += [item.Item(i, db_conn, search_term) for i in items]
+            res += [item.Item.init_from_html(i, db_conn, search_term) for i in items]
             print("Finished with Page")
             if logfile:
                 try:
