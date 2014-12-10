@@ -8,7 +8,9 @@ cursor = db_conn.cursor()
 
 # search_terms_query = "SELECT SearchTerm FROM %s GROUP BY SearchTerm;" # could get search terms dynamically
 search_terms = ["nexus 7", "iphone 6", "fifa 15 xbox one"]
-items = { term : [] for term in search_terms}
+items = {}
+for term in search_terms:
+    items[term] = []
 
 # find all tables
 table_names = ["ItemsWeek" + str(i) for i in range(10)]
