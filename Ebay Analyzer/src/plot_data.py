@@ -7,7 +7,7 @@ db_conn = mysql.connector.connect(**db_constants.DBCONFIG)
 cursor = db_conn.cursor()
 
 # search_terms_query = "SELECT SearchTerm FROM %s GROUP BY SearchTerm;" # could get search terms dynamically
-search_terms = ["nexus 7", "iphone 6", "fifa 15 xbox one"]
+search_terms = ["nexus 7", "iphone 6", "fifa 15 xbox one", "nike mercurial vapor superfly"]
 items = {}
 for term in search_terms:
     items[term] = []
