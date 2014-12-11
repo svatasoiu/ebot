@@ -6,6 +6,7 @@ Created on Aug 10, 2014
 #from statistics import mean, stdev
 import pylab as P
 from time import time
+from numpy import std, mean
 
 def getExistingBINPrices(items):
     """ Gets all non-None BIN prices from items"""
@@ -17,12 +18,9 @@ def getExistingAUCPrices(items):
 
 def filterOutliers(prices):
     """ Removes outliers from the prices list. """
-    prices.sort()
-    if len(prices) > 10:
-        return prices[2:len(prices) - 3]
-    #mu = mean(prices)
-    #sigma = stdev(prices)
-    #return list(filter(lambda p: p > mu - 0.8*sigma, prices))
+    mu = mean(prices)
+    sigma = std(prices)
+    return list(filter(lambda p: p < mu + 3*sigma, prices))
 
 def plotPriceHistogram(items, extract_prices):
     """ Plots a histogram of the price data of items """
