@@ -17,7 +17,9 @@ def getExistingAUCPrices(items):
 
 def filterOutliers(prices):
     """ Removes outliers from the prices list. """
-    return prices
+    prices.sort()
+    if len(prices) > 10:
+        return prices[2:len(prices) - 3]
     #mu = mean(prices)
     #sigma = stdev(prices)
     #return list(filter(lambda p: p > mu - 0.8*sigma, prices))
