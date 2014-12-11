@@ -13,7 +13,7 @@ for term in search_terms:
     items[term] = []
 
 # find all tables
-table_names = ["ItemsWeek" + str(i) for i in range(10)]
+table_names = ["ItemsWeek" + str(i) for i in range(3)]
 generic_query = "SELECT EbayID, BidPrice, BINPrice, TimeLeft FROM `%s` WHERE SearchTerm='%s'"
 
 def Decimal_to_float(dec):
