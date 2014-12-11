@@ -52,10 +52,11 @@ def plotPriceVsTimeLeft(items, price_name):
     time_left = []
     prices = []
     for item in items:
-        if item.price > 10000:
-            continue
         t_l = item.time_left
         price = getattr(item, price_name)
+        if price > 10000.:
+            continue
+        
         if t_l is not None and price is not None:
             time_left.append(t_l)
             prices.append(price)
