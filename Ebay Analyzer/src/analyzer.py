@@ -51,12 +51,10 @@ def plotPriceHistograms(items):
 def plotPriceVsTimeLeft(items, price_name):
     time_left = []
     prices = []
-    mu = mean(prices)
-    sigma = std(prices)
     for item in items:
         t_l = item.time_left
         price = getattr(item, price_name)
-        if t_l is not None and price is not None and price < max_price(mu, sigma):
+        if t_l is not None and price is not None:
             time_left.append(t_l)
             prices.append(price)
     P.xlabel("Time Left In Auction (s)")
