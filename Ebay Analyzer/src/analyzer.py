@@ -8,6 +8,9 @@ import pylab as P
 from time import time
 from numpy import std, mean
 
+def max_price(mu, sigma):
+    return mu + 3*sigma
+
 def getExistingBINPrices(items):
     """ Gets all non-None BIN prices from items"""
     return [item.BINprice for item in items if item.BINprice is not None]
@@ -20,7 +23,7 @@ def filterOutliers(prices):
     """ Removes outliers from the prices list. """
     mu = mean(prices)
     sigma = std(prices)
-    return list(filter(lambda p: p < mu + 3*sigma, prices))
+    return list(filter(lambda p: p < max_price(mu, sigma), prices))
 
 def plotPriceHistogram(items, extract_prices):
     """ Plots a histogram of the price data of items """
@@ -48,10 +51,12 @@ def plotPriceHistograms(items):
 def plotPriceVsTimeLeft(items, price_name):
     time_left = []
     prices = []
+    mu = mean(prices)
+    sigma = std(prices)
     for item in items:
         t_l = item.time_left
         price = getattr(item, price_name)
-        if t_l is not None and price is not None:
+        if t_l is not None and price is not None and price < max_price(mu, sigma):
             time_left.append(t_l)
             prices.append(price)
     P.xlabel("Time Left In Auction (s)")
