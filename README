@@ -1,2 +1,5 @@
 This is a Ebay Analyzer that hopefully will be able to find currently listed items on Ebay, use machine learning to create a model for the price of the items and identify undervalued items. 
 The end goal is to have the analyzer find the items, create models and reports on them, and then issue last second bids on them up to a maximum target prices computed by the model.
+
+UPDATE
+I decdied to implement a multithreaded scraper that no longer relies on selenium. Instead, I directly request the HTML, parse it, and find what I need. This led to an enormous speed upx (now the bot can retrieve and analyze 2500 items in about 20 seconds)
