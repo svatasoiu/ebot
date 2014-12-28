@@ -5,3 +5,4 @@ db_config.py
 *.log
 .pydevproject
 logs/*
+db_constants
