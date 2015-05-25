@@ -39,6 +39,7 @@ class Researcher:
         self.max_items = max_items
         self.queue = queue if queue else Queue.Queue(maxsize = constants.MAX_THREADS)
         self.start_url = url.format(format_for_web(search_term), "{}", "{}")
+        print self.start_url
         self.num_pages = self.get_number_of_pages()
         print self.num_pages
         self.all_items = []
@@ -58,6 +59,6 @@ class Researcher:
         response = requests.get(self.start_url.format(0, 0))
         parser = etree.HTMLParser()
         tree = etree.fromstring(response.text.encode('utf8'), parser)
-        num_results = int(tree.xpath(constants.NUMRESULTSPATH)[0].replace(",",""))
+        num_results = int(tree.xpath(constants.NUMRESULTSPATH)[0].split(" ")[0].replace(",",""))
         return min(num_results, self.max_items) / 50 + 1
     

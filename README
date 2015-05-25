@@ -3,3 +3,7 @@ The end goal is to have the analyzer find the items, create models and reports o
 
 UPDATE
 I decdied to implement a multithreaded scraper that no longer relies on selenium. Instead, I directly request the HTML, parse it, and find what I need. This led to an enormous speed upx (now the bot can retrieve and analyze 2500 items in about 20 seconds)
+
+1) filter out data, choose hard price cutoffs for individual item types
+2) make feature vector for individual items, and try to model final price from stuff like description, time close, price at certain times left, seller info, etc.
+

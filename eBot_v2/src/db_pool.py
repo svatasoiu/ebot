@@ -24,6 +24,7 @@ class DBPool(object):
             self.cond_var.wait()
         self.active_connections += 1
         connection = mysql.connector.connect(**self.dbargs)
+        print connection
         self.cond_var.release()
         return connection 
     

@@ -34,10 +34,6 @@ class Item:
                     " (EbayID,Title,SellerName,BidPrice,BINPrice,TimeLeft,NumBids,SearchTerm) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
                 item_data = (str(self.ebayID), str(self.title), str(self.seller_name), str(self.AUCprice) if self.AUCprice else None, 
                              str(self.BINprice) if self.BINprice else None, str(self.time_left), str(self.num_bids), str(search_term))
-#                 add_item  = "INSERT INTO Items" + \
-#                     " (EbayID,Title,BidPrice,BINPrice,SearchTerm) VALUES (%s,%s,%s,%s,%s)"
-#                 item_data = (str(self.ebayID), str(self.title), str(self.AUCprice) if self.AUCprice else None, str(self.BINprice) if self.BINprice else None, str(search_term))
-                print(add_item, item_data)
                 cursor.execute(add_item, item_data)
                 db_conn.commit()
             except Exception as e:
